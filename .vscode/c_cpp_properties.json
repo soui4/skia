@@ -1,0 +1,37 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}/samplecode/**",
+                "${workspaceFolder}/include/views/**",
+                "${workspaceFolder}/include/core/**",
+                "${workspaceFolder}/include/config/**",
+                "${workspaceFolder}/include/xml/**",
+                "${workspaceFolder}/include/gpu/**",
+                "${workspaceFolder}/include/pipe/**",
+                "${workspaceFolder}/include/pdf/**",
+                "${workspaceFolder}/include/animator/**",
+                "${workspaceFolder}/src/gpu/**",
+                "${workspaceFolder}/include/utils/**",
+                "${workspaceFolder}/src/core/**",
+                "${workspaceFolder}/tools/**",
+                "${workspaceFolder}/gm/**",
+                "${workspaceFolder}/src/pipe/utils/**",
+                ""
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "windowsSdkVersion": "10.0.19041.0",
+            "compilerPath": "cl.exe",
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "windows-msvc-x64",
+            "configurationProvider": "ms-vscode.makefile-tools"
+        }
+    ],
+    "version": 4
+}
