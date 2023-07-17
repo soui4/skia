@@ -144,15 +144,7 @@ bool SkWindow::update(SkIRect* updateArea) {
 #ifdef SK_SIMULATE_FAILED_MALLOC
         gEnableControlledThrow = true;
 #endif
-#ifdef SK_BUILD_FOR_WIN32
-        //try {
-            this->draw(canvas);
-        //}
-        //catch (...) {
-        //}
-#else
         this->draw(canvas);
-#endif
 #ifdef SK_SIMULATE_FAILED_MALLOC
         gEnableControlledThrow = false;
 #endif

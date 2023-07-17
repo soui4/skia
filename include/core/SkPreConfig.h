@@ -33,8 +33,10 @@
         #define SK_BUILD_FOR_PALM
     #elif defined(UNDER_CE)
         #define SK_BUILD_FOR_WINCE
-    #elif defined(WIN32)
-        #define SK_BUILD_FOR_WIN32
+    #elif defined(_WIN64)
+		#define SK_BUILD_FOR_WIN32
+	#elif defined(WIN32)
+		#define SK_BUILD_FOR_WIN32
     #elif defined(__SYMBIAN32__)
         #define SK_BUILD_FOR_WIN32
     #elif defined(ANDROID)
@@ -125,6 +127,7 @@
 #define SK_CPU_SSE_LEVEL_SSSE3    31
 #define SK_CPU_SSE_LEVEL_SSE41    41
 #define SK_CPU_SSE_LEVEL_SSE42    42
+
 
 // Are we in GCC?
 #ifndef SK_CPU_SSE_LEVEL

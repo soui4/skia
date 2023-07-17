@@ -245,13 +245,25 @@ SkTypeface* SkFontMgr_Indirect::onMatchFamilyStyle(const char familyName[],
     return this->createTypefaceFromFontId(id);
 }
 
+#ifdef SK_FM_NEW_MATCH_FAMILY_STYLE_CHARACTER
 SkTypeface* SkFontMgr_Indirect::onMatchFamilyStyleCharacter(const char familyName[],
                                                             const SkFontStyle& style,
-                                                            const char bpc47[],
-                                                            uint32_t character) const {
-    SkFontIdentity id = fProxy->matchNameStyleCharacter(familyName, style, bpc47, character);
+                                                            const char* bcp47[],
+                                                            int bcp47Count,
+                                                            SkUnichar character) const {
+    SkFontIdentity id = fProxy->matchNameStyleCharacter(familyName, style, bcp47,
+                                                        bcp47Count, character);
     return this->createTypefaceFromFontId(id);
 }
+#else
+SkTypeface* SkFontMgr_Indirect::onMatchFamilyStyleCharacter(const char familyName[],
+                                                            const SkFontStyle& style,
+                                                            const char bcp47[],
+                                                            SkUnichar character) const {
+    SkFontIdentity id = fProxy->matchNameStyleCharacter(familyName, style, bcp47, character);
+    return this->createTypefaceFromFontId(id);
+}
+#endif
 
 SkTypeface* SkFontMgr_Indirect::onMatchFaceStyle(const SkTypeface* familyMember,
                                                  const SkFontStyle& fontStyle) const {
@@ -273,7 +285,7 @@ SkTypeface* SkFontMgr_Indirect::onCreateFromData(SkData* data, int ttcIndex) con
 }
 
 SkTypeface* SkFontMgr_Indirect::onLegacyCreateTypeface(const char familyName[],
-                                                       unsigned styleBits) const {
+                                                       unsigned styleBits,unsigned charSet) const {
     bool bold = SkToBool(styleBits & SkTypeface::kBold);
     bool italic = SkToBool(styleBits & SkTypeface::kItalic);
     SkFontStyle style = SkFontStyle(bold ? SkFontStyle::kBold_Weight

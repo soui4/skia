@@ -110,10 +110,18 @@ protected:
                                            const SkFontStyle&) const SK_OVERRIDE {
         return NULL;
     }
+#ifdef SK_FM_NEW_MATCH_FAMILY_STYLE_CHARACTER
     virtual SkTypeface* onMatchFamilyStyleCharacter(const char familyName[],
                                                     const SkFontStyle& style,
-                                                    const char bpc47[],
-                                                    uint32_t character) const SK_OVERRIDE {
+                                                    const char* bcp47[],
+                                                    int bcp47Count,
+                                                    SkUnichar character) const SK_OVERRIDE {
+#else
+    virtual SkTypeface* onMatchFamilyStyleCharacter(const char familyName[],
+                                                    const SkFontStyle& style,
+                                                    const char bcp47[],
+                                                    SkUnichar character) const SK_OVERRIDE {
+#endif
         return NULL;
     }
     virtual SkTypeface* onMatchFaceStyle(const SkTypeface*,
@@ -129,7 +137,7 @@ protected:
     virtual SkTypeface* onCreateFromFile(const char[], int) const SK_OVERRIDE {
         return NULL;
     }
-    virtual SkTypeface* onLegacyCreateTypeface(const char [], unsigned) const SK_OVERRIDE {
+    virtual SkTypeface* onLegacyCreateTypeface(const char [], unsigned,unsigned) const SK_OVERRIDE {
         return NULL;
     }
 };
@@ -162,10 +170,18 @@ SkTypeface* SkFontMgr::matchFamilyStyle(const char familyName[],
     return this->onMatchFamilyStyle(familyName, fs);
 }
 
+#ifdef SK_FM_NEW_MATCH_FAMILY_STYLE_CHARACTER
 SkTypeface* SkFontMgr::matchFamilyStyleCharacter(const char familyName[], const SkFontStyle& style,
-                                                 const char bpc47[], uint32_t character) const {
-    return this->onMatchFamilyStyleCharacter(familyName, style, bpc47, character);
+                                                 const char* bcp47[], int bcp47Count,
+                                                 SkUnichar character) const {
+    return this->onMatchFamilyStyleCharacter(familyName, style, bcp47, bcp47Count, character);
 }
+#else
+SkTypeface* SkFontMgr::matchFamilyStyleCharacter(const char familyName[], const SkFontStyle& style,
+                                                 const char bcp47[], SkUnichar character) const {
+    return this->onMatchFamilyStyleCharacter(familyName, style, bcp47, character);
+}
+#endif
 
 SkTypeface* SkFontMgr::matchFaceStyle(const SkTypeface* face,
                                       const SkFontStyle& fs) const {
@@ -194,8 +210,8 @@ SkTypeface* SkFontMgr::createFromFile(const char path[], int ttcIndex) const {
 }
 
 SkTypeface* SkFontMgr::legacyCreateTypeface(const char familyName[],
-                                            unsigned styleBits) const {
-    return this->onLegacyCreateTypeface(familyName, styleBits);
+                                            unsigned styleBits,unsigned charSet) const {
+    return this->onLegacyCreateTypeface(familyName, styleBits,charSet);
 }
 
 SkFontMgr* SkFontMgr::CreateDefault() {

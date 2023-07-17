@@ -1152,6 +1152,9 @@ public:
         return &fClipStack;
     }
 
+    // make internal_private_getTotalClip public for soui : hjx 2016.1.13
+    const SkRegion& internal_private_getTotalClip() const;
+
     typedef SkCanvasClipVisitor ClipVisitor;
     /**
      *  Replays the clip operations, back to front, that have been applied to
@@ -1380,8 +1383,9 @@ private:
                                     const char text[], size_t byteLength,
                                     SkScalar x, SkScalar y);
 
-    // only for canvasutils
-    const SkRegion& internal_private_getTotalClip() const;
+    // only for canvasutils 
+    //make it public for soui: hjx 2016.1.13
+    //const SkRegion& internal_private_getTotalClip() const;
 
     /*  These maintain a cache of the clip bounds in local coordinates,
         (converted to 2s-compliment if floats are slow).
@@ -1433,9 +1437,9 @@ class SkAutoCanvasRestore : SkNoncopyable {
 public:
     SkAutoCanvasRestore(SkCanvas* canvas, bool doSave) : fCanvas(canvas), fSaveCount(0) {
         if (fCanvas) {
-            fSaveCount = canvas->getSaveCount();
+            fSaveCount = fCanvas->getSaveCount();
             if (doSave) {
-                canvas->save();
+                fCanvas->save();
             }
         }
     }
